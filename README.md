@@ -64,8 +64,7 @@ Open index.html in your web browser by  starting Live Server
 
 ## Demo
 
-Insert gif or link to demo
-
+ 
 http://projectx.great-site.net/
 ## Authors
 
