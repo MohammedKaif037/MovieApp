@@ -57,11 +57,10 @@ Open index.html in your web browser by  starting Live Server
 
 ## Usage/Examples
 
-```bash
+ 
 **Searching Movies:** Enter a movie title in the search bar to find relevant movies.
 **Viewing Movie Details:** Click on a movie card to view detailed information about the movie.
-```
-
+ 
 
 ## Demo
 
