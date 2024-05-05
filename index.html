@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Movie App</title>
+    <link rel="icon" type="image/x-icon" href="Web capture_12-11-2022_11520_looka.com.jpeg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div>
+        <header>
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-3">
+                  <h1 class="header-title"> <a href="./"> ScreenStream</a></h1>
+                </div>
+                <div class="col-sm-9">
+                  <form id="form" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" id="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </header>
+          
+          
+        </div>
+        
+    <main id="main">
+        <div class="container">
+            <div class="row" id="movies">
+            
+            </div>
+        </div>
+    </main>
+    
+    <footer style="justify-content: center;color:aliceblue">
+        &nbsp &nbsp    &nbsp &nbsp  &nbsp &nbsp  &nbsp &nbsp    ©Kmovies     : The copyright statement specifies that the images and content 
+        from the site can only be used for fair use purposes
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+const API_URL = 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=413c49dbd680d54997ea733454507fd9&page=1';
+const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
+const main = document.getElementById('movies');
+const SEARCH_API = 'https://api.themoviedb.org/3/search/movie?api_key=413c49dbd680d54997ea733454507fd9&query=';
+const form = document.getElementById('form');
+const search = document.getElementById('search');
+
+// Get Initial Movies
+getMovies(API_URL);
+
+async function getMovies(url) {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    showMovies(data.results);
+}
+
+function showMovies(movies) {
+    main.innerHTML = '';
+
+    movies.forEach((movie) => {
+        const { id, title, poster_path, vote_average } = movie;
+
+        const movieEl = document.createElement('div');
+        movieEl.classList.add('col-md-2', 'mb-3'); // Added 'mb-3' to add some margin between columns
+
+        const imdbClass = getClassByRate(vote_average);
+
+        movieEl.innerHTML = `
+            <div class="card">
+                <a href="details.html?id=${id}">
+                    <img class="card-img-top img-fluid" src="${IMG_PATH + poster_path}" alt="${title}">
+                    <div class="card-block">
+                        <h4 class="card-title">${title}</h4>
+                        <p class="card-text"><small class="text-muted ${imdbClass}">${vote_average} / 10</small></p>
+                    </div>
+                </a>
+            </div>
+        `;
+
+        main.appendChild(movieEl);
+    });
+}
+
+function getClassByRate(vote) {
+    if (vote >= 8) {
+        return 'text-success';
+    } else if (vote >= 5) {
+        return 'text-warning';
+    } else {
+        return 'text-danger';
+    }
+}
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const searchTerm = search.value;
+
+    if (searchTerm && searchTerm !== '') {
+        getMovies(SEARCH_API + searchTerm);
+
+        search.value = '';
+    } else {
+        window.location.reload();
+    }
+});
+</script>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-OgVRvuATP1z7JjHLkuOUdL7Xw3Ze9FS+Knv6IaTx/KSA+NcCq6UohkNoIx/N4APM" crossorigin="anonymous">
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-Hc5p00N3jWV+585EaStO9ygySXdqXT6wwTGkXerL4LyOmZG2Aj7XLraXlVTaUuJQ" crossorigin="anonymous"></script>
+
+</body>
+</html>

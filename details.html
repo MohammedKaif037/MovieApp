@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Movie Details</title>
+    <link rel="icon" type="image/x-icon" href="Web capture_12-11-2022_11520_looka.com.jpeg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="main" class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="" alt="" class="img-fluid">
+        </div>
+        <div class="col-md-8">
+            <h2></h2>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Genres:</strong> </li>
+                <li class="list-group-item"><strong>Released:</strong> </li>
+                <li class="list-group-item"><strong>Runtime:</strong> </li>
+                <li class="list-group-item"><strong>Rating:</strong> </li>
+                <li class="list-group-item"><strong>Overview:</strong> </li>
+                <li class="list-group-item"><strong>Budget:</strong> </li> <!-- Added Budget -->
+                <li class="list-group-item"><strong>Revenue:</strong> </li> <!-- Added Revenue -->
+                <li class="list-group-item"><strong>Tagline:</strong> </li> <!-- Added Tagline -->
+                <li class="list-group-item"><strong>Production Companies:</strong> </li> <!-- Added Production Companies -->
+                <li class="list-group-item"><strong>Production Countries:</strong> </li> <!-- Added Production Countries -->
+                <li class="list-group-item"><strong>Cast:</strong> </li> <!-- Added Cast -->
+            </ul>
+        </div>
+    </div>
+    <hr> <!-- Added horizontal line -->
+    <div class="row">
+        <div class="col-md-8">
+            <h3 class="mt-4">Related Movies</h3> <!-- Added heading for related movies -->
+        </div>
+        <div class="col-md-4">
+            <p class="back-link"><a href="index.html">Back to Home Page</a></p>
+        </div>
+    </div>
+    <div class="row" id="related-movies"></div> <!-- Container for related movies -->
+</main>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script>
+    const API_KEY = 'fe727459eb2add808f9cebb5f474a882';
+    // const API_KEY='413c49dbd680d54997ea733454507fd9';
+    const IMG_PATH = 'https://image.tmdb.org/t/p/w1280/';
+    const SEARCH_API = 'https://api.themoviedb.org/3/movie/';
+
+    const img = document.querySelector('img');
+    const title = document.querySelector('h2');
+    const genres = document.querySelectorAll('.list-group-item')[0];
+    const released = document.querySelectorAll('.list-group-item')[1];
+    const runtime = document.querySelectorAll('.list-group-item')[2];
+    const rating =
+
+ document.querySelectorAll('.list-group-item')[3];
+    const overview = document.querySelectorAll('.list-group-item')[4];
+    const budget = document.querySelectorAll('.list-group-item')[5]; // Added Budget
+    const revenue = document.querySelectorAll('.list-group-item')[6]; // Added Revenue
+    const tagline = document.querySelectorAll('.list-group-item')[7]; // Added Tagline
+    const productionCompanies = document.querySelectorAll('.list-group-item')[8]; // Added Production Companies
+    const productionCountries = document.querySelectorAll('.list-group-item')[9]; // Added Production Countries
+    const cast = document.querySelectorAll('.list-group-item')[10]; // Added Cast
+    const relatedMoviesContainer = document.getElementById('related-movies');
+
+    // Get movie ID from URL query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieId = urlParams.get('id');
+
+    getMovieDetails(movieId);
+
+    async function getMovieDetails(id) {
+        const res = await fetch(SEARCH_API + id + '?api_key=' + API_KEY);
+        const data = await res.json();
+
+        img.src = IMG_PATH + data.poster_path;
+        title.innerHTML = data.title;
+        genres.innerHTML += data.genres.map((genre) => genre.name).join(', ');
+        released.innerHTML += data.release_date;
+        runtime.innerHTML += data.runtime + ' min';
+        rating.innerHTML += data.vote_average + ' / 10';
+        overview.innerHTML += data.overview;
+        budget.innerHTML += data.budget ? '$' + data.budget.toLocaleString() : 'N/A'; // Added budget
+        revenue.innerHTML += data.revenue ? '$' + data.revenue.toLocaleString() : 'N/A'; // Added revenue
+        tagline.innerHTML += data.tagline ? data.tagline : 'N/A'; // Added tagline
+        productionCompanies.innerHTML += data.production_companies.map((company) => company.name).join(', '); // Added production companies
+        productionCountries.innerHTML += data.production_countries.map((country) => country.name).join(', '); // Added production countries
+
+        // Fetch cast information
+        const castRes = await fetch(SEARCH_API + id + '/credits?api_key=' + API_KEY);
+        const castData = await castRes.json();
+        cast.innerHTML += castData.cast.slice(0, 5).map(actor => actor.name).join(', '); // Display top 5 cast members
+        // const castList = castData.cast.slice(0, 5).map(actor => actor.name).join(', '); // Display top 5 cast members
+        // cast.innerHTML += castList ? castList : 'N/A'; // Display cast information
+
+        // Fetch related movies based on genres
+        const relatedMoviesRes = await fetch(SEARCH_API + id + '/similar?api_key=' + API_KEY);
+        const relatedMoviesData = await relatedMoviesRes.json();
+
+        showRelatedMovies(relatedMoviesData.results);
+    }
+
+    function showRelatedMovies(movies) {
+        relatedMoviesContainer.innerHTML = '';
+
+        movies.forEach((movie) => {
+            const { id, title, poster_path, vote_average } = movie;
+
+            const movieEl = document.createElement('div');
+            movieEl.classList.add('col-md-3', 'mb-3');
+
+            const imdbClass = getClassByRate(vote_average);
+
+            movieEl.innerHTML = `
+                <div class="card">
+                    <a href="details.html?id=${id}">
+                        <img class="card-img-top img-fluid" src="${IMG_PATH + poster_path}" alt="${title}">
+                        <div class="card-block">
+                            <h4 class="card-title">${title}</h4>
+                            <p class="card-text"><small class="text-muted ${imdbClass}">${vote_average} / 10</small></p>
+                        </div>
+                    </a>
+                </div>
+            `;
+
+            relatedMoviesContainer.appendChild(movieEl);
+        });
+    }
+
+    function getClassByRate(vote) {
+        if (vote >= 8) {
+            return 'text-success';
+        } else if (vote >= 5) {
+            return 'text-warning';
+        } else {
+            return 'text-danger';
+        }
+    }
+</script>
+</body>
+</html>
+ 
+
+ 
