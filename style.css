@@ -115,3 +115,27 @@ main {
     height: 300px; /* Adjust the height as needed */
     object-fit: cover; /* Ensure the image covers the entire space without distortion */
 }
+
+.search-btn {
+    background-color: #007bff; /* Blue color */
+    color: #fff; /* White color */
+    border-color: #007bff; /* Blue color for border */
+}
+
+.search-btn:hover {
+    background-color: #0056b3; /* Darker shade of blue on hover */
+    border-color: #0056b3; /* Darker shade of blue for border on hover */
+}
+
+.card-block {
+    background-color: #114985; /* Blue background color */
+    color: #fff; /* White text color */
+}
+
+.card-block .card-title {
+    color: #fff; /* White text color for card title */
+}
+
+.card-block .card-text .text-muted {
+    color: #ffffff; /* White text color for card text */
+}
