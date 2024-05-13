@@ -3,6 +3,14 @@
 
 A functional movie web application where users can browse and search for movies, view their details, and discover related movies
 
+##Badges
+
+[![HTML](https://img.shields.io/badge/HTML-5-red)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![CSS](https://img.shields.io/badge/CSS-3-blue)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-4-purple)](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![TMDB API](https://img.shields.io/badge/TMDB%20API-v3-orange)](https://developers.themoviedb.org/3/getting-started/introduction)
+
 
 ## Deployment
 
