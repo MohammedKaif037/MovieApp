@@ -3,7 +3,7 @@
 
 A functional movie web application where users can browse and search for movies, view their details, and discover related movies
 
-##Badges
+## Badges
 
 [![HTML](https://img.shields.io/badge/HTML-5-red)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![CSS](https://img.shields.io/badge/CSS-3-blue)](https://developer.mozilla.org/en-US/docs/Web/CSS)
